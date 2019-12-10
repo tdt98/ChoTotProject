@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  KeyboardAvoidingView,
+  SafeAreaView
 } from "react-native";
 import firebase from "firebase";
 import * as Facebook from "expo-facebook";
@@ -32,22 +34,19 @@ export default class LoginScreen extends React.Component {
     super(props);
 
     this.state = {
-      logInStatus: 0,
       errorMessage: "none",
       email: "",
       password: ""
     };
   }
 
-  // componentWillMount() {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user != null) {
-  //       this.props.navigation.navigate("Main");
-  //     } else {
-  //       this.setState({ logInStatus: "0" });
-  //     }
-  //   });
-  // }
+  componentWillMount() {
+    auth.onAuthStateChanged(user => {
+      if (user != null) {
+        this.props.navigation.navigate("MainStack");
+      } 
+    });
+  }
 
   emailLogin = (email, password) => {
     try {
@@ -55,23 +54,10 @@ export default class LoginScreen extends React.Component {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(res => {
-          this.props.navigation.navigate("Main");
+          this.props.navigation.navigate("MainStack");
         });
     } catch (error) {
-      console.log(error.toString(error));
-    }
-  };
-
-  emailSignUp = (email, password) => {
-    try {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log(user);
-        });
-    } catch (error) {
-      console.log(error.toString(error));
+      
     }
   };
 
@@ -86,71 +72,84 @@ export default class LoginScreen extends React.Component {
       //Firebase credential is created with the Facebook access token.
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       auth.signInWithCredential(credential).catch(error => {
-        this.setState({ errorMessage: error.message });
       });
+      // userID = firebase.auth().currentUser.uid
+      // await firebase.database().ref('Users/'+ userID).set({
+      //   id: userID
+      // })
     } else {
       console.log("error");
+
     }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={{ height: 200, width: 200 }}
-        />
-        <View>
-          <View style = {{borderRadius: 10, overflow: 'hidden'}}>
-            <TextInput
-              editable
-              maxLength={40}
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={text => this.setState({ email: text })}
-              value={this.state.email}
-            />
-          </View>
-          <View style = {{borderRadius: 10, overflow: 'hidden', marginTop: 10}}>
-            <TextInput
-              editable
-              maxLength={40}
-              style={styles.input}
-              placeholder="Mật khẩu"
-              secureTextEntry={true}
-              onChangeText={text => this.setState({ password: text })}
-              value={this.state.password}
-            />
-          </View>
+      <KeyboardAvoidingView behavior='height' keyboardVerticalOffset ={-130} style = {{flex: 1}}>
+        <SafeAreaView style={styles.container}>
+          <Image
+            source={require("../assets/images/logo.png")}
+            style={{ height: 200, width: 200 }}
+          />
+          <View>
+            <View style={{ borderRadius: 10, overflow: "hidden" }}>
+              <TextInput
+                editable
+                maxLength={40}
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={text => this.setState({ email: text })}
+                value={this.state.email}
+              />
+            </View>
+            <View
+              style={{ borderRadius: 10, overflow: "hidden", marginTop: 10 }}
+            >
+              <TextInput
+                editable
+                maxLength={40}
+                style={styles.input}
+                placeholder="Mật khẩu"
+                secureTextEntry={true}
+                onChangeText={text => this.setState({ password: text })}
+                value={this.state.password}
+              />
+            </View>
 
-          <TouchableOpacity
-            style={styles.loginButton}
-            // onPress={() =>
-            //   this.emailLogin(this.state.email, this.state.password)
-            // }
-            onPress={() => this.props.navigation.navigate("Main")}
-          >
-            <Text style={{ color: "white" , fontWeight: 'bold'}}>Đăng nhập</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.facebookLogin}
-            onPress={() => this.handleFacebookButton()}
-          >
-            <Text style={{ color: "white", fontWeight: 'bold' }}>Đăng nhập bằng</Text>
-            <Image
-              source={require("../assets/images/facebook.png")}
-              style={styles.facebookLogo}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() =>
+                this.emailLogin(this.state.email, this.state.password)
+              }
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Đăng nhập
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.facebookLogin}
+              onPress={() => this.handleFacebookButton()}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Đăng nhập bằng
+              </Text>
+              <Image
+                source={require("../assets/images/facebook.png")}
+                style={styles.facebookLogo}
+              />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.signupButton}
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text style={{ color: "#0e95a7", fontWeight: 'bold'}}>Đăng ký</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <TouchableOpacity
+              style={styles.signupButton}
+              onPress={() => this.props.navigation.navigate("Register")}
+            >
+              <Text style={{ color: "#0e95a7", fontWeight: "bold" }}>
+                Đăng ký
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   input: {
     padding: 10,

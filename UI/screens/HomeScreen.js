@@ -1,92 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Dimensions, TextInput, ScrollView, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TextInput, ScrollView, ActivityIndicator, FlatList, TouchableOpacity, YellowBox } from 'react-native';
 import { Ionicons, FontAwesome, AntDesign, Feather, Entypo } from '@expo/vector-icons';
 import { SearchBar, Card, Image } from 'react-native-elements';
 import Swiper from '../node_modules/react-native-swiper'
 import ItemList from '../components/ItemList'
-const product = [
-  {
-    id: 1,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 2,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 3,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 4,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 5,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 6,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 7,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 8,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-  {
-    id: 9,
-    image: 'https://cdn.chotot.com/xVCk3MdrRrpQWeG9OdW5pLwUQiFkgbjh-03opRK_gKQ/preset:listing/plain/baf90cacc1a64241c5e3a53cc47164a3-2641097024163686621.jpg',
-    title: 'Nhà 1 Lầu Hà Huy Giáp, 2PN 2WC, Tặng nội thất, 1 Tỷ 4',
-    price: '1.450.000.000 đ',
-    uutien: 'Tin Ưu Tiên',
-    time: '1 phút trước',
-    area: 'Tp Hồ Chí Minh',
-  },
-]
+import firebase from "firebase"
+
+console.disableYellowBox = true
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -99,12 +19,19 @@ export default class HomeScreen extends React.Component {
   getData = async () => {
     try {
       jsonData = [];
+      userID = firebase.auth().currentUser.uid
+      id = -1
+
+      await firebase.database().ref('Users/'+userID).once('value').then(function(snapshot){
+        id = snapshot.val().id
+      })
       response = await fetch(
-          "https://gateway.chotot.com/v1/public/ad-listing?cg=1000&limit=10&st=s,k"
+          "http://192.168.100.146:4500/result?user_id="+id
       );
+      
       jsonData = await response.json();
       this.setState({
-        data: jsonData["ads"],
+        data: jsonData["list"],
       });
     } catch (error) {
       console.log("error");
@@ -151,15 +78,15 @@ export default class HomeScreen extends React.Component {
               <Text style={{ fontWeight: 'bold', fontSize: 15, paddingLeft: 5, color:'#0e95a7' }}> Khám phá danh mục</Text>
             </View>
             <View style={styles.categoryList}>
-              <TouchableOpacity style={styles.cardCate} onPress = {() => this.props.navigation.navigate("CategoryItems")}>
+              <TouchableOpacity style={styles.cardCate} onPress = {() => this.props.navigation.navigate("CategoryItems",{category: 1000})}>
                 <Text style={styles.categoryText}>Bất động sản</Text>
                 <FontAwesome name="home" size={50} color = '#0e95a7'></FontAwesome>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cardCate} >
+              <TouchableOpacity style={styles.cardCate} onPress = {() => this.props.navigation.navigate("CategoryItems",{category: 2000})}>
                 <Text style={styles.categoryText}>Xe cộ</Text>
                 <AntDesign name="car" size={50} color = '#0e95a7'></AntDesign>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cardCate} >
+              <TouchableOpacity style={styles.cardCate} onPress = {() => this.props.navigation.navigate("CategoryItems",{category:5000})} >
                 <Text style={styles.categoryText}>Đồ điện tử</Text>
                 <FontAwesome name="mobile-phone" size={50} color = '#0e95a7'></FontAwesome>
               </TouchableOpacity>
@@ -168,7 +95,7 @@ export default class HomeScreen extends React.Component {
             <FlatList
               data={this.state.data}
               keyExtractor={(item, id) => id.toString()}
-              renderItem={({ item }) => <ItemList item = {item} itemClick = {() =>this.props.navigation.navigate("Product",{ad_id: item.list_id})}/>
+              renderItem={({ item }) => <ItemList item = {item} itemClick = {() =>this.props.navigation.navigate("Product",{list_id: item.list_id})}/>
               }
             />
           </ScrollView>
@@ -185,6 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 17,
+    marginBottom:40,
   },
   wrapper: {
     height: Dimensions.get('window').height * 21 / 100,

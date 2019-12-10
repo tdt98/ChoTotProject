@@ -18,22 +18,46 @@ import {
   MaterialCommunityIcons,
   FontAwesome
 } from "@expo/vector-icons";
+import firebase from "firebase";
 
 export default class SettingsScreen extends React.Component {
+  signOutUser = async () => {
+    // try {
+    //     await firebase.auth().signOut();
+    //     console.log('ok')
+    //     this.props.navigation.navigate('LoginStack')
+    // } catch (e) {
+    //     console.log(e);
+    // }
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.navigation.navigate("LoginStack");
+      })
+      .catch(function(error) {
+        // An error happened.
+      });
+  };
+
   render() {
+    const user = firebase.auth().currentUser
+    photo = user.photoURL == null? 'https://firebasestorage.googleapis.com/v0/b/chotot-2abc8.appspot.com/o/noname.jpg?alt=media&token=93a7108b-f759-4763-b827-c604612a811c': user.photoURL
+    name = user.displayName == null ? 'Tên': user.displayName
     return (
       <View style={styles.container}>
         <View style={styles.info}>
           <View style={styles.avatarWrapper}>
             <Image
               style={styles.avatar}
-              source={require("../assets/images/avatar.jpg")}
+              // source={require("../assets/images/avatar.jpg")}
+              source={{uri: photo}}
             ></Image>
           </View>
           <View style={styles.userInfo}>
             <View>
               <View>
-                <Text style={styles.userName}>Vương Nguyễn</Text>
+                <Text style={styles.userName}>{name}</Text>
               </View>
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -81,14 +105,14 @@ export default class SettingsScreen extends React.Component {
           style={{
             paddingLeft: 10,
             height: 180,
-            justifyContent: "space-between",
+            justifyContent: "space-between"
           }}
         >
           <View style={{ flexDirection: "row" }}>
             <FontAwesome name="star-o" size={20} color="#BCBCBC"></FontAwesome>
             <View style={{ marginLeft: 5 }}>
               <Text style={{ color: "#BCBCBC" }}>
-                Đánh giá: Chưa có đánh giá
+                Email: {user.email}
               </Text>
             </View>
           </View>
@@ -155,7 +179,7 @@ export default class SettingsScreen extends React.Component {
                 flexDirection: "row",
                 height: 30,
                 alignItems: "center",
-                marginBottom: 10,
+                marginBottom: 10
               }}
             >
               <MaterialIcons name="help" size={30}></MaterialIcons>
@@ -165,11 +189,13 @@ export default class SettingsScreen extends React.Component {
                   marginLeft: 10
                 }}
               >
-                <Text style={{ fontSize: 10, fontWeight: 'bold'}}>Trợ giúp</Text>
+                <Text style={{ fontSize: 10, fontWeight: "bold" }}>
+                  Trợ giúp
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.signOutUser()}>
             <View
               style={{
                 flexDirection: "row",
@@ -187,7 +213,9 @@ export default class SettingsScreen extends React.Component {
                   marginLeft: 10
                 }}
               >
-                <Text style={{ fontSize: 10, fontWeight: 'bold'}}>Đăng xuất</Text>
+                <Text style={{ fontSize: 10, fontWeight: "bold" }}>
+                  Đăng xuất
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -197,14 +225,14 @@ export default class SettingsScreen extends React.Component {
   }
 }
 
-SettingsScreen.navigationOptions ={
+SettingsScreen.navigationOptions = {
   header: null
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginTop: 25,
+    marginTop: 25
   },
   info: {
     flexDirection: "row",

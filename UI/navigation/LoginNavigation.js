@@ -5,12 +5,14 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
 
-
-
 const loginNavigator = createStackNavigator({
     Login: LoginScreen,
     Register:RegisterScreen,
-})
+},
+{
+    initialRouteName: 'Login'
+}
+)
 loginNavigator.path = '';
 
 export default loginNavigator;

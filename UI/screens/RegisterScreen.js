@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  YellowBox 
 } from "react-native";
 
 import firebase from "firebase";
@@ -20,7 +21,11 @@ export default class RegisterScreen extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(user => {
-          console.log(user);
+          firebase.database().ref('Users/'+ user.user.uid).set({
+            email,
+            password,
+            id: user.user.uid
+          })
         });
     } catch (error) {
       console.log(error.toString(error));

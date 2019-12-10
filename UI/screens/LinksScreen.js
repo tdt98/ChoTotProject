@@ -2,257 +2,166 @@ import React from "react";
 import {
   StyleSheet,
   Text,
+  ScrollView,
+  TextInput,
+  FlatList,
   Dimensions,
   View,
   Image,
   TouchableOpacity
 } from "react-native";
-import {
-  Ionicons,
-  Octicons,
-  Entypo,
-  Feather,
-  AntDesign,
-  MaterialIcons,
-  EvilIcons,
-  MaterialCommunityIcons,
-  FontAwesome
-} from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
+const chat = [
+  {
+    id: 1,
+    avatar: require("../assets/images/phi.jpg"),
+    name: "Phi Nguyễn",
+    message: "OK",
+    time: "17:50"
+  },
+  {
+    id: 2,
+    avatar: require("../assets/images/mon.jpg"),
+    name: "Trâm Anh",
+    message: "Hẹn ngày mai gặp",
+    time: "8:14"
+  },
+  {
+    id: 3,
+    avatar: require("../assets/images/vinh.jpg"),
+    name: "Vinh",
+    message: "Chắc chắn rồi",
+    time: "15:07"
+  },
+  {
+    id: 4,
+    avatar: require("../assets/images/dung.jpg"),
+    name: "Phương Dung",
+    message: "Bye",
+    time: "9:00"
+  },
+  {
+    id: 5,
+    avatar: require("../assets/images/huu.jpg"),
+    name: "Phan Thanh Hữu",
+    message: "Hẹn dịp khác nhé",
+    time: "13:35"
+  },
+  {
+    id: 6,
+    avatar: require("../assets/images/huong.jpg"),
+    name: "Hương Nguyễn",
+    message: "Được rồi",
+    time: "12:48"
+  },
+  {
+    id: 7,
+    avatar: require("../assets/images/noname.jpg"),
+    name: "Khánh Huy",
+    message: "Haha",
+    time: "8:46"
+  },
+  {
+    id: 8,
+    avatar: require("../assets/images/yhuong.jpg"),
+    name: "Yến Hương",
+    message: "yeah",
+    time: "7:44"
+  }
+];
 export default class LinksScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={{ marginLeft: 10, width: 30, alignSelf: "center" }}>
-            <Ionicons name="md-arrow-back" size={25} color="white"></Ionicons>
-          </View>
-          <View style={{ width: 150, justifyContent: "center" }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18, color: "white" }}>
-              Vương Nguyễn
-            </Text>
-          </View>
-        </View>
-        <View style={styles.info}>
-          <View style={styles.avatarWrapper}>
+        <View style={{ flexDirection: "row", marginLeft: 10, marginTop: 10 }}>
+          <View>
             <Image
-              style={styles.avatar}
+              style={{ height: 40, width: 40, borderRadius: 50 }}
               source={require("../assets/images/avatar.jpg")}
             ></Image>
           </View>
-          <View style={styles.userInfo}>
-            <View>
-              <View>
-                <Text style={styles.userName}>Vương Nguyễn</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <Text>0 Người theo dõi </Text>
-              <Text>0 Đang theo dõi</Text>
-            </View>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <TouchableOpacity>
-                <View
-                  style={{
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: "#d6d7da",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: 180,
-                    height: 30
-                  }}
-                >
-                  <Text>Chỉnh sửa trang cá nhân</Text>
+          <View style={{ marginLeft: 10 }}>
+            <Text style={{ fontWeight: "bold", fontSize: 25 }}>Chat</Text>
+          </View>
+        </View>
+        <View style={{ alignItems: "center", marginTop: 20, marginBottom: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: 350,
+              height: 45,
+              borderWidth: 0.5,
+              borderColor: "#bebebe",
+              borderRadius: 50,
+              alignItems: "center",
+              paddingLeft: 10
+            }}
+          >
+            <Feather name="search" size={20}></Feather>
+            <TextInput
+              style={{ fontSize: 18, marginLeft: 10 }}
+              placeholder="Tìm kiếm"
+            ></TextInput>
+          </View>
+        </View>
+        <ScrollView>
+          <FlatList
+            data={chat}
+            keyExtractor={(item, id) => id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.chat}>
+                <View style={styles.wrapAvatar}>
+                  <Image style={styles.avatar} source={item.avatar}></Image>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <View
-                  style={{
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: "#d6d7da",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: 30,
-                    height: 30
-                  }}
-                >
-                  <Feather name="more-horizontal" size={20}></Feather>
+                <View style={{ paddingLeft: 10, width: 310 }}>
+                  <Text style={styles.textName}>{item.name}</Text>
+                  <View style={styles.wrapMessage}>
+                    <Text>{item.message}</Text>
+                    <Text>{item.time}</Text>
+                  </View>
                 </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View style={styles.line}></View>
-        <View
-          style={{
-            paddingLeft: 10,
-            height: 180,
-            justifyContent: "space-around",
-            paddingTop: 20
-          }}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <FontAwesome name="star-o" size={20} color="#BCBCBC"></FontAwesome>
-            <View style={{ marginLeft: 5 }}>
-              <Text style={{ color: "#BCBCBC" }}>
-                Đánh giá: Chưa có đánh giá
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign name="calendar" size={20} color="#BCBCBC"></AntDesign>
-            <View style={{ marginLeft: 5, flexDirection: "row" }}>
-              <Text style={{ color: "#BCBCBC" }}>Ngày tham gia: </Text>
-              <Text style={{ color: "black" }}>16/11/2019</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <EvilIcons name="location" size={20} color="#BCBCBC"></EvilIcons>
-            <View style={{ marginLeft: 5 }}>
-              <Text style={{ color: "#BCBCBC" }}>Địa chỉ: chưa cung cấp</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <Feather name="message-square" size={20} color="#BCBCBC"></Feather>
-            <View style={{ marginLeft: 5 }}>
-              <Text style={{ color: "#BCBCBC" }}>
-                Phản hồi chat: Chưa có thông tin
-              </Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign
-              name="checkcircleo"
-              size={20}
-              color="#BCBCBC"
-            ></AntDesign>
-            <View style={{ marginLeft: 5 }}>
-              <Text style={{ color: "#BCBCBC" }}>Đã cung cấp: </Text>
-            </View>
-            <View
-              style={{
-                marginLeft: 5,
-                flexDirection: "row",
-                width: 90,
-                justifyContent: "space-between"
-              }}
-            >
-              <FontAwesome
-                name="facebook"
-                size={18}
-                color="#27812A"
-              ></FontAwesome>
-              <EvilIcons name="location" size={18}></EvilIcons>
-              <Ionicons name="md-call" size={18} color="#27812A"></Ionicons>
-              <Octicons name="mail" size={18}></Octicons>
-            </View>
-          </View>
-        </View>
-        <View style={styles.line}></View>
-        <View
-          style={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            flex: 0.2,
-            justifyContent: "space-around"
-          }}
-        >
-          <TouchableOpacity>
-            <View
-              style={{
-                flexDirection: "row",
-                borderRadius: 15,
-                height: 50,
-                borderWidth: 1,
-                borderColor: "#36aeb7",
-                alignItems: "center"
-              }}
-            >
-              <MaterialIcons name="help" size={30}></MaterialIcons>
-              <View
-                style={{
-                  width: 100,
-                  marginLeft: 10
-                }}
-              >
-                <Text style={{ fontSize: 20 }}>Trợ giúp</Text>
               </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View
-              style={{
-                flexDirection: "row",
-                borderRadius: 15,
-                height: 50,
-                borderWidth: 1,
-                borderColor: "#36aeb7",
-                alignItems: "center"
-              }}
-            >
-              <MaterialCommunityIcons
-                name="logout"
-                size={30}
-              ></MaterialCommunityIcons>
-              <View
-                style={{
-                  width: 100,
-                  marginLeft: 10
-                }}
-              >
-                <Text style={{ fontSize: 20 }}>Đăng xuất</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+            )}
+          />
+        </ScrollView>
       </View>
     );
   }
 }
 
+LinksScreen.navigationOptions={
+  header: null
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column"
+    marginTop:20
   },
-  header: {
-    flex: 0.07,
-    backgroundColor: "#36aeb7",
+  chat: {
+    height: 100,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  wrapAvatar: {
+    width: 60,
+    height: 60,
     justifyContent: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start"
-  },
-  info: {
-    flex: 0.2,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  avatarWrapper: {
-    flex: 0.3,
-    alignItems: "center"
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50
-  },
-  userInfo: {
-    flex: 0.6,
-    height: 100,
-    justifyContent: "space-between",
     marginLeft: 10
   },
-  userName: {
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 50
+  },
+  name: {},
+  textName: {
     fontWeight: "bold",
     fontSize: 20
   },
-  line: {
-    width: Dimensions.get("window").width,
-    height: 0.5,
-    backgroundColor: "#bcbcbc"
+  wrapMessage: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 });

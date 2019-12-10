@@ -24,6 +24,7 @@ import { StackActions } from "react-navigation";
 import ItemList from "../components/ItemList";
 
 export default class CategoryItemsScreen extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -39,14 +40,14 @@ export default class CategoryItemsScreen extends Component {
       jsonData = [];
       if (value == "0") {
         response = await fetch(
-          "https://gateway.chotot.com/v1/public/ad-listing?cg=1000&limit=10&st=s,k"
+          "https://gateway.chotot.com/v1/public/ad-listing?cg="+this.props.navigation.getParam('category')+"&limit=10&st=s,k"
         );
         jsonData = await response.json();
       } else {
         response = await fetch(
           "https://gateway.chotot.com/v1/public/ad-listing?region_v2=" +
             value +
-            "&cg=1000&limit=10&st=s,k"
+            "&cg="+this.props.navigation.getParam('category')+"&limit=10&st=s,k"
         );
         jsonData = await response.json();
       }
@@ -68,13 +69,13 @@ export default class CategoryItemsScreen extends Component {
         response = await fetch(
             "https://gateway.chotot.com/v1/public/ad-listing?region_v2=" +
               this.state.city +
-              "&cg=1000&limit=10&st=s,k&price="+this.state.price+"-*"
+              "&cg="+this.props.navigation.getParam('category')+"&limit=10&st=s,k&price="+this.state.price+"-*"
           );
         
         jsonData = await response.json();
         console.log( "https://gateway.chotot.com/v1/public/ad-listing?region_v2=" +
         this.state.city +
-        "&cg=1000&limit=10&st=s,k&price="+this.state.price+"-*")
+        "&cg="+this.props.navigation.getParam('category')+"&limit=10&st=s,k&price="+this.state.price+"-*")
         this.setState({
           data: jsonData["ads"],
         });
